@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Open Source & Resources — Bishal Majumdar{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Open Source</span>
+            <h1>Resources & Guides</h1>
+            <p>Free, beginner-friendly learning materials I've written for other students.</p>
+        </div>
+
+        {% if resources %}
+            <div class="grid grid--2">
+                {% for resource in resources %}
+                    {% include "_resource_card.html" %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center muted">
+                <p>No resources yet. Check back soon!</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

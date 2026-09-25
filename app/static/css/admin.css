@@ -1,0 +1,270 @@
+/* ─────────────────────────────────────────────────────────────
+   Admin Panel Styles
+   ───────────────────────────────────────────────────────────── */
+
+body.admin {
+    background: #f8fafc;
+    color: var(--ink-700);
+    font-family: var(--font);
+    margin: 0;
+}
+
+.admin-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+}
+
+/* ── Sidebar ── */
+.admin-sidebar {
+    background: var(--ink-900);
+    color: #cbd5e1;
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.admin-sidebar__brand {
+    color: white;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-sidebar nav a {
+    display: block;
+    padding: 10px 24px;
+    color: #cbd5e1;
+    font-size: 0.92rem;
+    border-left: 3px solid transparent;
+    transition: all .15s;
+    text-decoration: none;
+}
+
+.admin-sidebar nav a:hover,
+.admin-sidebar nav a.active {
+    background: rgba(34, 197, 94, 0.1);
+    color: white;
+    border-left-color: var(--green-500);
+}
+
+.admin-sidebar__section {
+    padding: 20px 24px 8px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* ── Main ── */
+.admin-main {
+    padding: 32px 40px;
+    max-width: 1100px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.admin-header h1 {
+    margin: 0 0 4px;
+    font-size: 1.75rem;
+}
+
+.admin-header__actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ── Stats grid ── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: var(--radius);
+    border: 1px solid var(--ink-200);
+    transition: all .15s;
+}
+
+.stat-card:hover {
+    border-color: var(--green-400);
+    box-shadow: var(--shadow);
+}
+
+.stat-card__label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-500);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.stat-card__value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink-900);
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.stat-card__meta {
+    font-size: 0.85rem;
+    color: var(--ink-500);
+}
+
+/* ── Tables ── */
+.admin-table {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--ink-200);
+    border-radius: var(--radius);
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+.admin-table th {
+    background: #f8fafc;
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-500);
+    border-bottom: 1px solid var(--ink-200);
+    font-weight: 600;
+}
+
+.admin-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--ink-100);
+    font-size: 0.92rem;
+    vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-table tr:hover {
+    background: #fafbfc;
+}
+
+.admin-table__thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: var(--green-100);
+}
+
+/* ── Action icons ── */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--ink-100);
+    color: var(--ink-700);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all .15s;
+    font-family: inherit;
+}
+
+.btn-icon:hover {
+    background: var(--green-100);
+    color: var(--green-700);
+}
+
+.btn-icon--danger:hover {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ── Login page (standalone) ── */
+.login-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--green-50) 0%, var(--white) 100%);
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.login-card p {
+    text-align: center;
+    color: var(--ink-500);
+    margin-bottom: 28px;
+    font-size: 0.92rem;
+}
+
+/* ── Empty state ── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border: 1px dashed var(--ink-200);
+    border-radius: var(--radius);
+    color: var(--ink-500);
+}
+
+/* ── Forms inside admin ── */
+.admin-form {
+    background: white;
+    padding: 28px;
+    border: 1px solid var(--ink-200);
+    border-radius: var(--radius);
+    max-width: 720px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .admin-layout { grid-template-columns: 1fr; }
+    .admin-sidebar { position: relative; height: auto; }
+    .admin-main { padding: 24px; }
+}

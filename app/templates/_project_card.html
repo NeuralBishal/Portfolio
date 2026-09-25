@@ -1,0 +1,37 @@
+<article class="card">
+    {% if project.image_url %}
+    <div class="card__image">
+        <img src="{{ project.image_url }}" alt="{{ project.title }}">
+    </div>
+    {% endif %}
+    <div class="card__body">
+        <div style="margin-bottom:10px;">
+            <span class="badge
+                {% if project.status == 'live' %}badge--green
+                {% elif project.status == 'coming-soon' %}badge--amber
+                {% else %}badge--slate{% endif %}">
+                {{ project.status_label }}
+            </span>
+        </div>
+
+        <h3 class="card__title">{{ project.title }}</h3>
+        <p class="card__desc">{{ project.description }}</p>
+
+        {% if project.tech_list %}
+        <div class="card__meta">
+            {% for tech in project.tech_list %}
+                <span class="tag">{{ tech }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="card__links">
+            {% if project.github_url %}
+                <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">GitHub →</a>
+            {% endif %}
+            {% if project.demo_url %}
+                <a href="{{ project.demo_url }}" target="_blank" rel="noopener" class="btn btn--primary btn--sm">Live Demo →</a>
+            {% endif %}
+        </div>
+    </div>
+</article>

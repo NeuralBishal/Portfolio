@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} — Bishal Majumdar{% endblock %}
+{% block meta_description %}{{ post.summary }}{% endblock %}
+
+{% block content %}
+<article class="section">
+    <div class="container" style="max-width:760px;">
+        <p class="muted" style="font-size:0.9rem;margin-bottom:8px;">
+            <a href="{{ url_for('public.blog') }}">← Back to blog</a>
+        </p>
+
+        <h1 style="margin-bottom:12px;">{{ post.title }}</h1>
+
+        <p class="muted" style="font-size:0.92rem;margin-bottom:24px;">
+            {{ post.created_at.strftime("%B %d, %Y") }}
+            {% if post.tag_list %}
+                · {% for tag in post.tag_list %}<span class="tag">{{ tag }}</span>{% if not loop.last %} {% endif %}{% endfor %}
+            {% endif %}
+        </p>
+
+        {% if post.cover_image_url %}
+            <img src="{{ post.cover_image_url }}" alt="{{ post.title }}"
+                 style="border-radius:12px;margin-bottom:32px;width:100%;">
+        {% endif %}
+
+        <div style="font-size:1.05rem;line-height:1.75;">
+            {{ post.content | safe }}
+        </div>
+
+        <hr style="margin:48px 0 24px;border:none;border-top:1px solid var(--ink-200);">
+
+        <p class="muted text-center" style="font-size:0.9rem;">
+            Thanks for reading. <a href="{{ url_for('public.contact') }}">Get in touch</a> if you have thoughts.
+        </p>
+    </div>
+</article>
+{% endblock %}

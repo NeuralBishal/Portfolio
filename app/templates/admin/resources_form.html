@@ -1,0 +1,79 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ "Edit" if resource else "New" }} Resource — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>{{ "Edit Resource" if resource else "New Resource" }}</h1>
+        <p class="muted" style="margin:0;">
+            <a href="{{ url_for('admin.resources_list') }}">← Back to resources</a>
+        </p>
+    </div>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="admin-form">
+    <div class="form-group">
+        <label for="title">Title *</label>
+        <input type="text" id="title" name="title" required
+               value="{{ resource.title if resource else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="tagline">Tagline (short one-liner)</label>
+        <input type="text" id="tagline" name="tagline"
+               value="{{ resource.tagline if resource else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4">{{ resource.description if resource else '' }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="topics">Topics (comma-separated)</label>
+        <input type="text" id="topics" name="topics"
+               placeholder="Conda, Docker, Git, Terminal"
+               value="{{ resource.topics if resource else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="url">URL</label>
+        <input type="url" id="url" name="url"
+               value="{{ resource.url if resource else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            {% set current_status = resource.status if resource else 'growing' %}
+            <option value="growing" {% if current_status == 'growing' %}selected{% endif %}>🚧 Actively Growing</option>
+            <option value="stable" {% if current_status == 'stable' %}selected{% endif %}>✅ Stable</option>
+            <option value="archived" {% if current_status == 'archived' %}selected{% endif %}>📦 Archived</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="display_order">Display order (lower = first)</label>
+        <input type="number" id="display_order" name="display_order"
+               value="{{ resource.display_order if resource else 0 }}">
+    </div>
+
+    <div class="form-group">
+        <label for="image">Cover image {% if resource and resource.image_url %}(leave empty to keep current){% endif %}</label>
+        {% if resource and resource.image_url %}
+            <div style="margin:8px 0;">
+                <img src="{{ resource.image_url }}" alt="" style="max-width:200px;border-radius:8px;">
+            </div>
+        {% endif %}
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.gif,.webp">
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:24px;">
+        <button type="submit" class="btn btn--primary">
+            {{ "Save Changes" if resource else "Create Resource" }}
+        </button>
+        <a href="{{ url_for('admin.resources_list') }}" class="btn btn--ghost">Cancel</a>
+    </div>
+</form>
+{% endblock %}

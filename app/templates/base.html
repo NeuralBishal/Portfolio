@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ page or "Bishal Majumdar" }} — Bishal Majumdar{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Portfolio of Bishal Majumdar — B.Tech CSE (AI & ML) student focused on computer vision, embedded systems, and Python.{% endblock %}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav__inner">
+        <a href="{{ url_for('public.index') }}" class="nav__brand">Bishal Majumdar</a>
+
+        <button class="nav__toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+
+        <ul class="nav__links" id="navLinks">
+            <li><a href="{{ url_for('public.index') }}">Home</a></li>
+            <li><a href="{{ url_for('public.projects') }}">Projects</a></li>
+            <li><a href="{{ url_for('public.resources') }}">Resources</a></li>
+            <li><a href="{{ url_for('public.skills') }}">Skills</a></li>
+            <li><a href="{{ url_for('public.education') }}">Education</a></li>
+            <li><a href="{{ url_for('public.blog') }}">Blog</a></li>
+            <li><a href="{{ url_for('public.contact') }}">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container" style="padding-top:20px;">
+      {% for category, msg in messages %}
+        <div class="flash {{ category }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer__grid">
+            <div>
+                <h4>Bishal Majumdar</h4>
+                <p class="muted" style="font-size:0.92rem;">
+                    B.Tech CSE (AI & ML) student building things at the intersection of computer vision and embedded systems.
+                </p>
+            </div>
+            <div>
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="{{ url_for('public.projects') }}">Projects</a></li>
+                    <li><a href="{{ url_for('public.resources') }}">Resources</a></li>
+                    <li><a href="{{ url_for('public.blog') }}">Blog</a></li>
+                    <li><a href="{{ url_for('public.contact') }}">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://github.com/NeuralBishal" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/neural-bishal-01627136a/" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="https://x.com/Bishal1Majumdar" target="_blank" rel="noopener">Twitter / X</a></li>
+                    <li><a href="https://www.kaggle.com/bishalmajumdar" target="_blank" rel="noopener">Kaggle</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <span>&copy; {{ 2026 }} Bishal Majumdar. All rights reserved.</span>
+            <span>Built with Flask + Neon + Cloudflare R2</span>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

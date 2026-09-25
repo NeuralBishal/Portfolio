@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ "Edit" if skill else "New" }} Skill — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>{{ "Edit Skill" if skill else "New Skill" }}</h1>
+        <p class="muted" style="margin:0;"><a href="{{ url_for('admin.skills_list') }}">← Back</a></p>
+    </div>
+</div>
+<form method="POST" class="admin-form">
+    <div class="form-group">
+        <label for="category">Category *</label>
+        <input type="text" id="category" name="category" required
+               placeholder="e.g. Programming, AI / ML, Tools"
+               value="{{ skill.category if skill else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="name">Skill name *</label>
+        <input type="text" id="name" name="name" required
+               placeholder="e.g. Python"
+               value="{{ skill.name if skill else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="display_order">Display order</label>
+        <input type="number" id="display_order" name="display_order"
+               value="{{ skill.display_order if skill else 0 }}">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:24px;">
+        <button type="submit" class="btn btn--primary">{{ "Save" if skill else "Create" }}</button>
+        <a href="{{ url_for('admin.skills_list') }}" class="btn btn--ghost">Cancel</a>
+    </div>
+</form>
+{% endblock %}

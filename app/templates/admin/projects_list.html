@@ -1,0 +1,74 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Projects — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Projects</h1>
+        <p class="muted" style="margin:0;">{{ projects|length }} total</p>
+    </div>
+    <div class="admin-header__actions">
+        <a href="{{ url_for('admin.projects_new') }}" class="btn btn--primary btn--sm">+ New Project</a>
+    </div>
+</div>
+
+{% if projects %}
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Order</th>
+            <th>Featured</th>
+            <th style="text-align:right;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in projects %}
+        <tr>
+            <td style="width:60px;">
+                {% if p.image_url %}
+                    <img src="{{ p.image_url }}" alt="" class="admin-table__thumb">
+                {% else %}
+                    <div class="admin-table__thumb"></div>
+                {% endif %}
+            </td>
+            <td>
+                <strong>{{ p.title }}</strong>
+                {% if p.tech_stack %}
+                    <br><span class="muted" style="font-size:0.82rem;">{{ p.tech_stack }}</span>
+                {% endif %}
+            </td>
+            <td>
+                <span class="badge
+                    {% if p.status == 'live' %}badge--green
+                    {% elif p.status == 'coming-soon' %}badge--amber
+                    {% else %}badge--slate{% endif %}">
+                    {{ p.status_label }}
+                </span>
+            </td>
+            <td>{{ p.display_order }}</td>
+            <td>{% if p.featured %}★{% else %}—{% endif %}</td>
+            <td style="text-align:right;white-space:nowrap;">
+                <a href="{{ url_for('admin.projects_edit', project_id=p.id) }}"
+                   class="btn-icon" title="Edit">✏️</a>
+                <form method="POST"
+                      action="{{ url_for('admin.projects_delete', project_id=p.id) }}"
+                      style="display:inline;"
+                      onsubmit="return confirm('Delete this project? This cannot be undone.');">
+                    <button type="submit" class="btn-icon btn-icon--danger" title="Delete">🗑️</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+    <p>No projects yet.</p>
+    <a href="{{ url_for('admin.projects_new') }}" class="btn btn--primary mt-4">+ Create your first project</a>
+</div>
+{% endif %}
+{% endblock %}

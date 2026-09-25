@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin — Bishal Majumdar{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin">
+
+<div class="admin-layout">
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar__brand">⚡ Admin Panel</div>
+
+        <nav>
+            <div class="admin-sidebar__section">Overview</div>
+            <ul>
+                <li><a href="{{ url_for('admin.dashboard') }}">📊 Dashboard</a></li>
+            </ul>
+
+            <div class="admin-sidebar__section">Content</div>
+            <ul>
+                <li><a href="{{ url_for('admin.projects_list') }}">📁 Projects</a></li>
+                <li><a href="{{ url_for('admin.resources_list') }}">📚 Resources</a></li>
+                <li><a href="{{ url_for('admin.skills_list') }}">🛠️ Skills</a></li>
+                <li><a href="{{ url_for('admin.education_list') }}">🎓 Education</a></li>
+                <li><a href="{{ url_for('admin.certifications_list') }}">🏆 Certifications</a></li>
+                <li><a href="{{ url_for('admin.blog_list') }}">✍️ Blog</a></li>
+            </ul>
+
+            <div class="admin-sidebar__section">Inbox</div>
+            <ul>
+                <li><a href="{{ url_for('admin.messages_list') }}">📬 Messages</a></li>
+            </ul>
+
+            <div class="admin-sidebar__section">Site</div>
+            <ul>
+                <li><a href="{{ url_for('admin.settings') }}">⚙️ Settings</a></li>
+                <li><a href="{{ url_for('admin.change_password') }}">🔒 Change Password</a></li>
+            </ul>
+
+            <div class="admin-sidebar__section">Actions</div>
+            <ul>
+                <li><a href="{{ url_for('public.index') }}" target="_blank">🌐 View Site</a></li>
+                <li><a href="{{ url_for('admin.logout') }}">🚪 Logout</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, msg in messages %}
+              <div class="flash {{ category }}">{{ msg }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+</body>
+</html>

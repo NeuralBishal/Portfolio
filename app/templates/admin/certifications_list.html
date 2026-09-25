@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% block title %}Certifications — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Certifications</h1>
+        <p class="muted" style="margin:0;">{{ certifications|length }} total</p>
+    </div>
+    <div class="admin-header__actions">
+        <a href="{{ url_for('admin.certifications_new') }}" class="btn btn--primary btn--sm">+ New Certification</a>
+    </div>
+</div>
+{% if certifications %}
+<table class="admin-table">
+    <thead><tr><th>Name</th><th>Issuer</th><th>Date</th><th style="text-align:right;">Actions</th></tr></thead>
+    <tbody>
+    {% for c in certifications %}
+        <tr>
+            <td><strong>{{ c.name }}</strong></td>
+            <td>{{ c.issuer }}</td>
+            <td>{{ c.date_earned }}</td>
+            <td style="text-align:right;white-space:nowrap;">
+                <a href="{{ url_for('admin.certifications_edit', cert_id=c.id) }}" class="btn-icon">✏️</a>
+                <form method="POST" action="{{ url_for('admin.certifications_delete', cert_id=c.id) }}" style="display:inline;" onsubmit="return confirm('Delete?');">
+                    <button class="btn-icon btn-icon--danger">🗑️</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state"><p>No certifications yet.</p></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p class="muted" style="margin:0;">Welcome back, {{ current_user.username }} 👋</p>
+    </div>
+    <div class="admin-header__actions">
+        <a href="{{ url_for('public.index') }}" target="_blank" class="btn btn--ghost btn--sm">View Site →</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-card__label">Projects</div>
+        <div class="stat-card__value">{{ stats.projects }}</div>
+        <div class="stat-card__meta"><a href="{{ url_for('admin.projects_list') }}">Manage →</a></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__label">Resources</div>
+        <div class="stat-card__value">{{ stats.resources }}</div>
+        <div class="stat-card__meta"><a href="{{ url_for('admin.resources_list') }}">Manage →</a></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__label">Blog Posts</div>
+        <div class="stat-card__value">{{ stats.posts }}</div>
+        <div class="stat-card__meta"><a href="{{ url_for('admin.blog_list') }}">Manage →</a></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__label">Unread Messages</div>
+        <div class="stat-card__value">{{ stats.unread }}</div>
+        <div class="stat-card__meta">
+            {{ stats.total_messages }} total · <a href="{{ url_for('admin.messages_list') }}">Inbox →</a>
+        </div>
+    </div>
+</div>
+
+<h2 style="margin-bottom:16px;">Recent Messages</h2>
+
+{% if recent_messages %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>From</th>
+                <th>Subject</th>
+                <th>Received</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in recent_messages %}
+                <tr>
+                    <td>
+                        <strong>{{ msg.name }}</strong><br>
+                        <span class="muted" style="font-size:0.85rem;">{{ msg.email }}</span>
+                    </td>
+                    <td>{{ msg.subject or "(no subject)" }}</td>
+                    <td class="muted" style="font-size:0.85rem;">
+                        {{ msg.created_at.strftime("%b %d, %Y") }}
+                    </td>
+                    <td>
+                        {% if msg.is_read %}
+                            <span class="badge badge--slate">Read</span>
+                        {% else %}
+                            <span class="badge badge--amber">Unread</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty-state">No messages yet.</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Education — Bishal Majumdar{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Academic Journey</span>
+            <h1>Education</h1>
+        </div>
+
+        {% if education %}
+            <div style="max-width:800px;margin:0 auto;">
+                {% for edu in education %}
+                    <div class="card" style="padding:24px;margin-bottom:20px;border-left:4px solid var(--green-500);">
+                        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px;">
+                            <h3 style="margin:0;">{{ edu.degree }}</h3>
+                            <span class="badge badge--green">{{ edu.start_year }} – {{ edu.end_year }}</span>
+                        </div>
+                        <p style="color:var(--green-700);font-weight:600;margin-bottom:8px;">{{ edu.institution }}</p>
+                        {% if edu.grade %}
+                            <p class="muted" style="margin-bottom:8px;font-size:0.9rem;"><strong>Grade:</strong> {{ edu.grade }}</p>
+                        {% endif %}
+                        {% if edu.details %}
+                            <p class="muted" style="margin:0;font-size:0.92rem;">{{ edu.details }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center muted">No education entries yet.</p>
+        {% endif %}
+    </div>
+</section>
+
+{% if certifications %}
+<section class="section section--alt">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Credentials</span>
+            <h2>Certifications</h2>
+        </div>
+
+        <div class="grid grid--3" style="max-width:900px;margin:0 auto;">
+            {% for cert in certifications %}
+                <div class="card" style="padding:22px;">
+                    <h3 style="font-size:1.05rem;margin-bottom:6px;">{{ cert.name }}</h3>
+                    <p class="muted" style="font-size:0.9rem;margin-bottom:6px;">{{ cert.issuer }}</p>
+                    {% if cert.date_earned %}
+                        <p class="muted" style="font-size:0.85rem;margin:0;">{{ cert.date_earned }}</p>
+                    {% endif %}
+                    {% if cert.url %}
+                        <a href="{{ cert.url }}" target="_blank" rel="noopener" class="btn btn--ghost btn--sm mt-4">View →</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if learning %}
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">In Progress</span>
+            <h2>Currently Learning</h2>
+        </div>
+
+        <div class="grid grid--2" style="max-width:800px;margin:0 auto;">
+            {% for item in learning %}
+                <div class="card" style="padding:22px;border-left:4px solid var(--green-400);">
+                    <h3 style="font-size:1.05rem;margin-bottom:8px;">{{ item.topic }}</h3>
+                    <p class="muted" style="margin:0;font-size:0.92rem;">{{ item.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

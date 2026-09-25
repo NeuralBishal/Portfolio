@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+{% block title %}Education — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Education & Learning</h1>
+        <p class="muted" style="margin:0;">{{ education|length }} education entries · {{ learning|length }} learning items</p>
+    </div>
+    <div class="admin-header__actions">
+        <a href="{{ url_for('admin.education_new') }}" class="btn btn--primary btn--sm">+ New Entry</a>
+    </div>
+</div>
+
+<h2 style="font-size:1.1rem;margin-bottom:12px;">Education</h2>
+{% if education %}
+<table class="admin-table" style="margin-bottom:32px;">
+    <thead><tr><th>Institution</th><th>Degree</th><th>Years</th><th>Grade</th><th style="text-align:right;">Actions</th></tr></thead>
+    <tbody>
+    {% for e in education %}
+        <tr>
+            <td><strong>{{ e.institution }}</strong></td>
+            <td>{{ e.degree }}</td>
+            <td>{{ e.start_year }} – {{ e.end_year }}</td>
+            <td>{{ e.grade }}</td>
+            <td style="text-align:right;white-space:nowrap;">
+                <a href="{{ url_for('admin.education_edit', edu_id=e.id) }}" class="btn-icon">✏️</a>
+                <form method="POST" action="{{ url_for('admin.education_delete', edu_id=e.id) }}" style="display:inline;" onsubmit="return confirm('Delete?');">
+                    <button class="btn-icon btn-icon--danger">🗑️</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state" style="margin-bottom:32px;"><p>No education entries yet.</p></div>
+{% endif %}
+
+<h2 style="font-size:1.1rem;margin-bottom:12px;">Currently Learning</h2>
+{% if learning %}
+<table class="admin-table" style="margin-bottom:20px;">
+    <tbody>
+    {% for l in learning %}
+        <tr>
+            <td><strong>{{ l.topic }}</strong><br><span class="muted" style="font-size:0.85rem;">{{ l.description }}</span></td>
+            <td style="text-align:right;width:80px;">
+                <form method="POST" action="{{ url_for('admin.learning_delete', item_id=l.id) }}" onsubmit="return confirm('Delete?');">
+                    <button class="btn-icon btn-icon--danger">🗑️</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<div class="admin-form" style="margin-top:20px;">
+    <h3 style="margin-top:0;font-size:1rem;">Add a "Currently Learning" item</h3>
+    <form method="POST" action="{{ url_for('admin.learning_new') }}">
+        <div class="form-group">
+            <label>Topic *</label>
+            <input type="text" name="topic" required placeholder="e.g. KiCad for PCB design">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Display order</label>
+            <input type="number" name="display_order" value="0">
+        </div>
+        <button type="submit" class="btn btn--primary btn--sm">Add</button>
+    </form>
+</div>
+{% endblock %}

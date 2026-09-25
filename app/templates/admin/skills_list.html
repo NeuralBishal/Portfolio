@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+{% block title %}Skills — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Skills</h1>
+        <p class="muted" style="margin:0;">{{ skills|length }} total across {{ grouped|length }} categories</p>
+    </div>
+    <div class="admin-header__actions">
+        <a href="{{ url_for('admin.skills_new') }}" class="btn btn--primary btn--sm">+ New Skill</a>
+    </div>
+</div>
+
+{% if grouped %}
+    {% for category, items in grouped.items() %}
+        <div style="background:white;border:1px solid var(--ink-200);border-radius:var(--radius);padding:20px;margin-bottom:16px;">
+            <h3 style="color:var(--green-700);font-size:0.9rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">
+                {{ category }}
+            </h3>
+            <table style="width:100%;">
+                {% for s in items %}
+                <tr style="border-bottom:1px solid var(--ink-100);">
+                    <td style="padding:8px 0;">{{ s.name }}</td>
+                    <td style="padding:8px 0;text-align:right;width:150px;white-space:nowrap;">
+                        <a href="{{ url_for('admin.skills_edit', skill_id=s.id) }}" class="btn-icon">✏️</a>
+                        <form method="POST" action="{{ url_for('admin.skills_delete', skill_id=s.id) }}" style="display:inline;" onsubmit="return confirm('Delete?');">
+                            <button class="btn-icon btn-icon--danger">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="empty-state">
+        <p>No skills yet.</p>
+        <a href="{{ url_for('admin.skills_new') }}" class="btn btn--primary mt-4">+ Add a skill</a>
+    </div>
+{% endif %}
+{% endblock %}

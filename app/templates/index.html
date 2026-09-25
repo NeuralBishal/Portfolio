@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Bishal Majumdar — Portfolio{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="container">
+        <div class="hero__grid">
+            <div>
+                <span class="eyebrow">Hello, I'm Bishal 👋</span>
+                <h1 class="hero__title">
+                    {{ cfg.title or "B.Tech CSE (AI & ML) Student" }}
+                </h1>
+                <p class="hero__tagline">
+                    {{ cfg.tagline or "Building intelligent systems at the intersection of computer vision and embedded hardware." }}
+                </p>
+                <div class="hero__cta">
+                    <a href="{{ url_for('public.projects') }}" class="btn btn--primary">View Projects →</a>
+                    {% if cfg.cv_pdf_url %}
+                        <a href="{{ cfg.cv_pdf_url }}" target="_blank" class="btn btn--ghost">Download CV ↓</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="hero__photo">
+                {% if cfg.profile_photo_url %}
+                    <img src="{{ cfg.profile_photo_url }}" alt="{{ cfg.full_name }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='img/profile.jpg') }}" alt="Profile">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="section section--alt" id="about">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">About Me</span>
+            <h2>Who I am</h2>
+        </div>
+
+        <div class="about-grid">
+            <div>
+                {% if cfg.bio %}
+                    {{ cfg.bio | safe }}
+                {% else %}
+                    <p>
+                        I'm a third-year B.Tech student specializing in Artificial Intelligence and Machine Learning
+                        at Dr. B.C. Roy Engineering College, Durgapur. My interests sit at the intersection of
+                        computer vision, embedded systems, and practical software — I love building tools that
+                        solve real problems.
+                    </p>
+                    <p>
+                        Right now I'm working on a CCTV-based automated attendance system, exploring Whisper for
+                        multilingual subtitle generation, and writing beginner-friendly guides on tools like
+                        Conda, Docker, and Git for students who — like me — started from zero.
+                    </p>
+                {% endif %}
+            </div>
+
+            <aside class="about-sidebar">
+                <ul>
+                    <li><strong>Location</strong>{{ cfg.location }}</li>
+                    <li><strong>Focus</strong>Computer Vision · Embedded Systems</li>
+                    <li><strong>Languages</strong>English · Bengali · Hindi</li>
+                    <li><strong>Interests</strong>Technical Writing · LaTeX · Poetry</li>
+                    <li><strong>Email</strong><a href="mailto:{{ cfg.email }}">{{ cfg.email }}</a></li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- ── FEATURED PROJECTS ── -->
+{% if projects %}
+<section class="section" id="projects">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Portfolio</span>
+            <h2>Featured Projects</h2>
+            <p>A few things I've been building recently.</p>
+        </div>
+
+        <div class="grid grid--3">
+            {% for project in projects %}
+                {% include "_project_card.html" %}
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-6">
+            <a href="{{ url_for('public.projects') }}" class="btn btn--ghost">See all projects →</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ── OPEN SOURCE ── -->
+{% if resources %}
+<section class="section section--alt" id="resources">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Open Source & Resources</span>
+            <h2>Things I share</h2>
+            <p>Free, beginner-friendly guides and tools for other learners.</p>
+        </div>
+
+        <div class="grid grid--2">
+            {% for resource in resources %}
+                {% include "_resource_card.html" %}
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-6">
+            <a href="{{ url_for('public.resources') }}" class="btn btn--ghost">See all resources →</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ── CTA ── -->
+<section class="section">
+    <div class="container text-center">
+        <h2>Let's connect</h2>
+        <p class="muted">Always open to collaborating on interesting projects or internships.</p>
+        <div class="hero__cta" style="justify-content:center;margin-top:20px;">
+            <a href="{{ url_for('public.contact') }}" class="btn btn--primary">Get in touch →</a>
+            <a href="https://www.linkedin.com/in/neural-bishal-01627136a/" target="_blank" rel="noopener" class="btn btn--ghost">LinkedIn</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

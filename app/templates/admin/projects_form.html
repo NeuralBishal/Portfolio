@@ -1,0 +1,86 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ "Edit" if project else "New" }} Project — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>{{ "Edit Project" if project else "New Project" }}</h1>
+        <p class="muted" style="margin:0;">
+            <a href="{{ url_for('admin.projects_list') }}">← Back to projects</a>
+        </p>
+    </div>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="admin-form">
+    <div class="form-group">
+        <label for="title">Title *</label>
+        <input type="text" id="title" name="title" required
+               value="{{ project.title if project else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4">{{ project.description if project else '' }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="tech_stack">Tech stack (comma-separated)</label>
+        <input type="text" id="tech_stack" name="tech_stack"
+               placeholder="Python, OpenCV, Whisper"
+               value="{{ project.tech_stack if project else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="github_url">GitHub URL</label>
+        <input type="url" id="github_url" name="github_url"
+               value="{{ project.github_url if project else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="demo_url">Live Demo URL</label>
+        <input type="url" id="demo_url" name="demo_url"
+               value="{{ project.demo_url if project else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            {% set current_status = project.status if project else 'live' %}
+            <option value="live" {% if current_status == 'live' %}selected{% endif %}>✅ Live</option>
+            <option value="private" {% if current_status == 'private' %}selected{% endif %}>🔒 Private</option>
+            <option value="coming-soon" {% if current_status == 'coming-soon' %}selected{% endif %}>🚧 Coming Soon</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="display_order">Display order (lower = first)</label>
+        <input type="number" id="display_order" name="display_order"
+               value="{{ project.display_order if project else 0 }}">
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="featured" {% if project and project.featured %}checked{% endif %}>
+            Feature on homepage
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="image">Image {% if project and project.image_url %}(leave empty to keep current){% endif %}</label>
+        {% if project and project.image_url %}
+            <div style="margin:8px 0;">
+                <img src="{{ project.image_url }}" alt="" style="max-width:200px;border-radius:8px;">
+            </div>
+        {% endif %}
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.gif,.webp">
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:24px;">
+        <button type="submit" class="btn btn--primary">
+            {{ "Save Changes" if project else "Create Project" }}
+        </button>
+        <a href="{{ url_for('admin.projects_list') }}" class="btn btn--ghost">Cancel</a>
+    </div>
+</form>
+{% endblock %}

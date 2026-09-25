@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% block title %}Settings — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Site Settings</h1>
+        <p class="muted" style="margin:0;">Edit your profile, bio, and social links</p>
+    </div>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="admin-form" style="max-width:820px;">
+
+    <h3 style="margin-top:0;">Profile</h3>
+
+    <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+            <label>Full name</label>
+            <input type="text" name="full_name" value="{{ cfg.full_name }}">
+        </div>
+        <div>
+            <label>Title / role</label>
+            <input type="text" name="title" value="{{ cfg.title }}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Tagline (shown on homepage)</label>
+        <textarea name="tagline" rows="2">{{ cfg.tagline }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Bio (HTML supported)</label>
+        <textarea name="bio" rows="8" style="font-family:ui-monospace,monospace;font-size:0.9rem;">{{ cfg.bio }}</textarea>
+    </div>
+
+    <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+            <label>Email</label>
+            <input type="email" name="email" value="{{ cfg.email }}">
+        </div>
+        <div>
+            <label>Location</label>
+            <input type="text" name="location" value="{{ cfg.location }}">
+        </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Social Links</h3>
+
+    <div class="form-group"><label>LinkedIn URL</label><input type="url" name="linkedin_url" value="{{ cfg.linkedin_url }}"></div>
+    <div class="form-group"><label>GitHub URL</label><input type="url" name="github_url" value="{{ cfg.github_url }}"></div>
+    <div class="form-group"><label>Twitter / X URL</label><input type="url" name="twitter_url" value="{{ cfg.twitter_url }}"></div>
+    <div class="form-group"><label>Kaggle URL</label><input type="url" name="kaggle_url" value="{{ cfg.kaggle_url }}"></div>
+    <div class="form-group"><label>YouTube URL</label><input type="url" name="youtube_url" value="{{ cfg.youtube_url }}"></div>
+
+    <h3 style="margin-top:32px;">Uploads</h3>
+
+    <div class="form-group">
+        <label>Profile photo {% if cfg.profile_photo_url %}(leave empty to keep current){% endif %}</label>
+        {% if cfg.profile_photo_url %}
+            <div style="margin:8px 0;"><img src="{{ cfg.profile_photo_url }}" style="max-width:140px;border-radius:12px;"></div>
+        {% endif %}
+        <input type="file" name="profile_photo" accept=".jpg,.jpeg,.png,.gif,.webp">
+    </div>
+
+    <div class="form-group">
+        <label>CV (PDF) {% if cfg.cv_pdf_url %}(leave empty to keep current){% endif %}</label>
+        {% if cfg.cv_pdf_url %}
+            <div style="margin:8px 0;"><a href="{{ cfg.cv_pdf_url }}" target="_blank">View current CV →</a></div>
+        {% endif %}
+        <input type="file" name="cv_pdf" accept=".pdf">
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:24px;">
+        <button type="submit" class="btn btn--primary">Save Settings</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn--ghost">Cancel</a>
+    </div>
+</form>
+{% endblock %}

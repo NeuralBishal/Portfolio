@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Blog — Bishal Majumdar{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Writing</span>
+            <h1>Blog & Notes</h1>
+            <p>Thoughts on AI/ML, computer vision, and learning in public.</p>
+        </div>
+
+        {% if posts %}
+            <div class="grid grid--2">
+                {% for post in posts %}
+                    <article class="card">
+                        {% if post.cover_image_url %}
+                            <div class="card__image">
+                                <img src="{{ post.cover_image_url }}" alt="{{ post.title }}">
+                            </div>
+                        {% endif %}
+                        <div class="card__body">
+                            <p class="muted" style="font-size:0.85rem;margin-bottom:6px;">
+                                {{ post.created_at.strftime("%B %d, %Y") }}
+                            </p>
+                            <h3 class="card__title">
+                                <a href="{{ url_for('public.blog_post', slug=post.slug) }}" style="color:var(--ink-900);">
+                                    {{ post.title }}
+                                </a>
+                            </h3>
+                            {% if post.summary %}
+                                <p class="card__desc">{{ post.summary }}</p>
+                            {% endif %}
+                            {% if post.tag_list %}
+                                <div class="card__meta">
+                                    {% for tag in post.tag_list %}
+                                        <span class="tag">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <a href="{{ url_for('public.blog_post', slug=post.slug) }}" class="btn btn--ghost btn--sm">Read more →</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center muted">
+                <p>No blog posts yet. I'll be writing here soon.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

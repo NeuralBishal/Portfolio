@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Projects — Bishal Majumdar{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Portfolio</span>
+            <h1>Projects</h1>
+            <p>Things I've built — from computer vision systems to beginner-friendly resources.</p>
+        </div>
+
+        {% if projects %}
+            <div class="grid grid--3">
+                {% for project in projects %}
+                    {% include "_project_card.html" %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center muted">
+                <p>No projects yet. Check back soon!</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

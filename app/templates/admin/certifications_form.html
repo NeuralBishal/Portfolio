@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ "Edit" if cert else "New" }} Certification — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>{{ "Edit Certification" if cert else "New Certification" }}</h1>
+        <p class="muted" style="margin:0;"><a href="{{ url_for('admin.certifications_list') }}">← Back</a></p>
+    </div>
+</div>
+<form method="POST" class="admin-form">
+    <div class="form-group">
+        <label>Name *</label>
+        <input type="text" name="name" required value="{{ cert.name if cert else '' }}">
+    </div>
+    <div class="form-group">
+        <label>Issuer</label>
+        <input type="text" name="issuer" value="{{ cert.issuer if cert else '' }}" placeholder="e.g. Udemy, Coursera">
+    </div>
+    <div class="form-group">
+        <label>Date earned</label>
+        <input type="text" name="date_earned" value="{{ cert.date_earned if cert else '' }}" placeholder="e.g. July 2026">
+    </div>
+    <div class="form-group">
+        <label>URL</label>
+        <input type="url" name="url" value="{{ cert.url if cert else '' }}">
+    </div>
+    <div class="form-group">
+        <label>Display order</label>
+        <input type="number" name="display_order" value="{{ cert.display_order if cert else 0 }}">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:24px;">
+        <button type="submit" class="btn btn--primary">{{ "Save" if cert else "Create" }}</button>
+        <a href="{{ url_for('admin.certifications_list') }}" class="btn btn--ghost">Cancel</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ msg.subject or "Message" }} — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>{{ msg.subject or "(no subject)" }}</h1>
+        <p class="muted" style="margin:0;"><a href="{{ url_for('admin.messages_list') }}">← Back to inbox</a></p>
+    </div>
+    <form method="POST" action="{{ url_for('admin.message_delete', msg_id=msg.id) }}" onsubmit="return confirm('Delete this message?');">
+        <button class="btn-icon btn-icon--danger" style="width:auto;padding:0 14px;height:36px;">🗑️ Delete</button>
+    </form>
+</div>
+
+<div class="admin-form" style="max-width:720px;">
+    <p><strong>From:</strong> {{ msg.name }} &lt;{{ msg.email }}&gt;</p>
+    <p><strong>Received:</strong> {{ msg.created_at.strftime("%B %d, %Y at %H:%M") }}</p>
+    <hr style="border:none;border-top:1px solid var(--ink-200);margin:20px 0;">
+    <p style="white-space:pre-wrap;line-height:1.7;">{{ msg.message }}</p>
+    <hr style="border:none;border-top:1px solid var(--ink-200);margin:20px 0;">
+    <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject or '' }}" class="btn btn--primary btn--sm">Reply via Email →</a>
+</div>
+{% endblock %}

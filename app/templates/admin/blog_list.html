@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+{% block title %}Blog — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Blog Posts</h1>
+        <p class="muted" style="margin:0;">{{ posts|length }} total</p>
+    </div>
+    <div class="admin-header__actions">
+        <a href="{{ url_for('admin.blog_new') }}" class="btn btn--primary btn--sm">+ New Post</a>
+    </div>
+</div>
+{% if posts %}
+<table class="admin-table">
+    <thead><tr><th>Title</th><th>Published</th><th>Date</th><th style="text-align:right;">Actions</th></tr></thead>
+    <tbody>
+    {% for p in posts %}
+        <tr>
+            <td>
+                <strong>{{ p.title }}</strong><br>
+                <span class="muted" style="font-size:0.82rem;">/{{ p.slug }}</span>
+            </td>
+            <td>
+                {% if p.published %}
+                    <span class="badge badge--green">Published</span>
+                {% else %}
+                    <span class="badge badge--slate">Draft</span>
+                {% endif %}
+            </td>
+            <td class="muted" style="font-size:0.85rem;">{{ p.created_at.strftime("%b %d, %Y") }}</td>
+            <td style="text-align:right;white-space:nowrap;">
+                {% if p.published %}
+                    <a href="{{ url_for('public.blog_post', slug=p.slug) }}" target="_blank" class="btn-icon" title="View">👁️</a>
+                {% endif %}
+                <a href="{{ url_for('admin.blog_edit', post_id=p.id) }}" class="btn-icon">✏️</a>
+                <form method="POST" action="{{ url_for('admin.blog_delete', post_id=p.id) }}" style="display:inline;" onsubmit="return confirm('Delete this post?');">
+                    <button class="btn-icon btn-icon--danger">🗑️</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+    <p>No blog posts yet.</p>
+    <a href="{{ url_for('admin.blog_new') }}" class="btn btn--primary mt-4">+ Write your first post</a>
+</div>
+{% endif %}
+{% endblock %}

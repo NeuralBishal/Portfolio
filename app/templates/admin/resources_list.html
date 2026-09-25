@@ -1,0 +1,72 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Resources — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Open Source & Resources</h1>
+        <p class="muted" style="margin:0;">{{ resources|length }} total</p>
+    </div>
+    <div class="admin-header__actions">
+        <a href="{{ url_for('admin.resources_new') }}" class="btn btn--primary btn--sm">+ New Resource</a>
+    </div>
+</div>
+
+{% if resources %}
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Order</th>
+            <th style="text-align:right;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in resources %}
+        <tr>
+            <td style="width:60px;">
+                {% if r.image_url %}
+                    <img src="{{ r.image_url }}" alt="" class="admin-table__thumb">
+                {% else %}
+                    <div class="admin-table__thumb"></div>
+                {% endif %}
+            </td>
+            <td>
+                <strong>{{ r.title }}</strong>
+                {% if r.tagline %}
+                    <br><span class="muted" style="font-size:0.82rem;">{{ r.tagline }}</span>
+                {% endif %}
+            </td>
+            <td>
+                <span class="badge
+                    {% if r.status == 'stable' %}badge--green
+                    {% elif r.status == 'growing' %}badge--amber
+                    {% else %}badge--slate{% endif %}">
+                    {{ r.status_label }}
+                </span>
+            </td>
+            <td>{{ r.display_order }}</td>
+            <td style="text-align:right;white-space:nowrap;">
+                <a href="{{ url_for('admin.resources_edit', resource_id=r.id) }}"
+                   class="btn-icon" title="Edit">✏️</a>
+                <form method="POST"
+                      action="{{ url_for('admin.resources_delete', resource_id=r.id) }}"
+                      style="display:inline;"
+                      onsubmit="return confirm('Delete this resource?');">
+                    <button type="submit" class="btn-icon btn-icon--danger" title="Delete">🗑️</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+    <p>No resources yet.</p>
+    <a href="{{ url_for('admin.resources_new') }}" class="btn btn--primary mt-4">+ Create your first resource</a>
+</div>
+{% endif %}
+{% endblock %}

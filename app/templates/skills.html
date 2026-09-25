@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Skills — Bishal Majumdar{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Toolbox</span>
+            <h1>Skills & Technologies</h1>
+            <p>The tools and languages I work with regularly.</p>
+        </div>
+
+        {% if skills_grouped %}
+            <div class="grid grid--2">
+                {% for category, items in skills_grouped.items() %}
+                    <div class="card" style="padding:24px;">
+                        <h3 style="color:var(--green-700);font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">
+                            {{ category }}
+                        </h3>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                            {% for skill in items %}
+                                <span class="tag" style="font-size:0.85rem;padding:6px 14px;">{{ skill.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center muted">
+                <p>No skills listed yet.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

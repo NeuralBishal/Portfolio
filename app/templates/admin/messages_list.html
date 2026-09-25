@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+{% block title %}Messages — Admin{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1>Inbox</h1>
+        <p class="muted" style="margin:0;">{{ messages|length }} total</p>
+    </div>
+</div>
+{% if messages %}
+<table class="admin-table">
+    <thead><tr><th>From</th><th>Subject</th><th>Received</th><th>Status</th><th style="text-align:right;">Actions</th></tr></thead>
+    <tbody>
+    {% for m in messages %}
+        <tr>
+            <td>
+                <strong>{{ m.name }}</strong><br>
+                <span class="muted" style="font-size:0.82rem;">{{ m.email }}</span>
+            </td>
+            <td>
+                <a href="{{ url_for('admin.message_detail', msg_id=m.id) }}">
+                    {{ m.subject or "(no subject)" }}
+                </a>
+            </td>
+            <td class="muted" style="font-size:0.85rem;">{{ m.created_at.strftime("%b %d, %Y") }}</td>
+            <td>
+                {% if m.is_read %}
+                    <span class="badge badge--slate">Read</span>
+                {% else %}
+                    <span class="badge badge--amber">Unread</span>
+                {% endif %}
+            </td>
+            <td style="text-align:right;">
+                <form method="POST" action="{{ url_for('admin.message_delete', msg_id=m.id) }}" style="display:inline;" onsubmit="return confirm('Delete?');">
+                    <button class="btn-icon btn-icon--danger">🗑️</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state"><p>No messages yet.</p></div>
+{% endif %}
+{% endblock %}
