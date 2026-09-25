@@ -12,5 +12,9 @@ Dynamic personal portfolio built with Flask, PostgreSQL (Neon), and Cloudflare R
 
 ### 1. Clone and enter
 ```bash
-git clone <your-repo-url>
+git clone <https://github.com/NeuralBishal/Portfolio>
 cd portfolio
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
