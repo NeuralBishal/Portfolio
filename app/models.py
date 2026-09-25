@@ -161,8 +161,9 @@ class Certification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     issuer = db.Column(db.String(200), default="")
-    date_earned = db.Column(db.String(50), default="")    # keep as string for flexibility
+    date_earned = db.Column(db.String(50), default="")
     url = db.Column(db.String(500), default="")
+    image_url = db.Column(db.String(500), default="")      # ← ADD THIS
     display_order = db.Column(db.Integer, default=0)
 
 

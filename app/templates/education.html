@@ -48,10 +48,10 @@
                     <h3 style="font-size:1.05rem;margin-bottom:6px;">{{ cert.name }}</h3>
                     <p class="muted" style="font-size:0.9rem;margin-bottom:6px;">{{ cert.issuer }}</p>
                     {% if cert.date_earned %}
-                        <p class="muted" style="font-size:0.85rem;margin:0;">{{ cert.date_earned }}</p>
+                        <p class="muted" style="font-size:0.85rem;margin:0 0 14px;">{{ cert.date_earned }}</p>
                     {% endif %}
                     {% if cert.url %}
-                        <a href="{{ cert.url }}" target="_blank" rel="noopener" class="btn btn--ghost btn--sm mt-4">View →</a>
+                        <a href="{{ cert.url }}" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Verify →</a>
                     {% endif %}
                 </div>
             {% endfor %}

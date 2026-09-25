@@ -437,11 +437,22 @@ def certifications_new():
         if not name:
             flash("Name is required.", "danger")
             return redirect(url_for("admin.certifications_new"))
+
+        image_url = ""
+        file = request.files.get("image")
+        if file and file.filename:
+            try:
+                image_url = save_file(file, folder="images")
+            except ValueError as e:
+                flash(str(e), "danger")
+                return redirect(url_for("admin.certifications_new"))
+
         db.session.add(Certification(
             name=name,
             issuer=request.form.get("issuer", "").strip(),
             date_earned=request.form.get("date_earned", "").strip(),
             url=request.form.get("url", "").strip(),
+            image_url=image_url,
             display_order=_int_or_zero(request.form.get("display_order")),
         ))
         db.session.commit()
@@ -460,6 +471,18 @@ def certifications_edit(cert_id):
         cert.date_earned = request.form.get("date_earned", "").strip()
         cert.url = request.form.get("url", "").strip()
         cert.display_order = _int_or_zero(request.form.get("display_order"))
+
+        # ── Image upload ──
+        file = request.files.get("image")
+        if file and file.filename:
+            if cert.image_url:
+                delete_file(cert.image_url)
+            try:
+                cert.image_url = save_file(file, folder="images")
+            except ValueError as e:
+                flash(str(e), "danger")
+                return redirect(url_for("admin.certifications_edit", cert_id=cert.id))
+
         db.session.commit()
         flash("Certification updated.", "success")
         return redirect(url_for("admin.certifications_list"))
@@ -470,6 +493,8 @@ def certifications_edit(cert_id):
 @login_required
 def certifications_delete(cert_id):
     cert = Certification.query.get_or_404(cert_id)
+    if cert.image_url:
+        delete_file(cert.image_url)
     db.session.delete(cert)
     db.session.commit()
     flash("Certification deleted.", "info")
